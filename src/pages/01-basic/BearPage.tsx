@@ -1,3 +1,4 @@
+import { useShallow } from 'zustand/react/shallow';
 import { WhiteCard } from '../../components';
 import { useBearStore } from '../../stores/bears/bears.store';
 
@@ -21,6 +22,7 @@ export const BearPage = () => {
 
         <PandaBears/>
 
+        <BearDiplay />
         
       </div>
 
@@ -83,5 +85,21 @@ export const PandaBears = () => {
           </div>
 
         </WhiteCard>
+  )
+}
+
+
+
+export const BearDiplay = () => {
+
+  // el useShallow es para que zustand analice las propiedad en el arreglo y verifique si es que hubo cambios, sino, no vuelve a re-renderizar el componente
+  const bears = useBearStore(useShallow(state => state.bears));
+  const doNothing = useBearStore(state => state.doNothing);
+  return (
+    <WhiteCard>
+      <button onClick={doNothing}>DoNothing</button>
+      <h1>Osos</h1>
+      <pre> {JSON.stringify(bears, null,2)} </pre>
+    </WhiteCard>
   )
 }
